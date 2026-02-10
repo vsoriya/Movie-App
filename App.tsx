@@ -1,20 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import SignUpScreen from "./src/screens/SignUpScreen";
+import ViewComponent from "./src/components/View_component";
+import LoginScreen from "./src/screens/LoginPage";
+import Button_component from "./src/components/Button_component";
+import CreateNewPasswordScreen from "./src/screens/Create_New_Password";
+import Reset_PasswordScreen from "./src/screens/Reset_Password";
+import Verification from './src/screens/Verification'
+import Root from "./src/screens/Root";
+import Navigation from './src/navigation/MainStackNavigation'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return(
+    <Navigation/>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
