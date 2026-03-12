@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import ViewBackgroundColor from "../components/View_component";
-import Textinput_components from "../components/Textinput_components";
-import Button_component from "../components/Button_component";
+import ViewBackgroundColor from "../../components/View_component";
+import Textinput_components from "../../components/Textinput_components";
+import Button_component from "../../components/Button_component";
 
 
 

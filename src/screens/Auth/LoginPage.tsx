@@ -1,17 +1,23 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import ViewBackgroundColor from "../components/View_component";
-import Textinput_components from "../components/Textinput_components";
-import Button_component from "../components/Button_component";
+import ViewBackgroundColor from "../../components/View_component";
+import Textinput_components from "../../components/Textinput_components";
+import Button_component from "../../components/Button_component";
+
+
 
 type RootStackParamList = {
   ResetPassword: undefined;
-  LoginScreen: undefined;
+  Login: undefined;
+  Main: undefined;
 }
 
 export default function LoginScreen(){
       const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+      const handleLogin = () => {
+        navigation.navigate('Main');
+      }
     return(
          <ViewBackgroundColor>
             <View style={styles.containertext}>
@@ -32,8 +38,10 @@ export default function LoginScreen(){
              <View style={{marginHorizontal:35,marginTop:30}}>
                 <Button_component
                     children_button="Login"
+                    onPress={handleLogin}
                 />
                 </View>
+                
          </ViewBackgroundColor>
     )
 }

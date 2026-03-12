@@ -1,17 +1,19 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
-import ViewBackgroundColor from '../components/View_component'
-import Button_component from '../components/Button_component'
+import ViewBackgroundColor from '../../components/View_component'
+import Button_component from '../../components/Button_component'
 
 const Verification = () => {
   return (
     <ViewBackgroundColor>
       <View style={styles.container}>
         <Text style={styles.title1}>Verifiying Your Account</Text>
-        <Text style={styles.subtitle}>We have just send your 4 digits code via your</Text>
+        <Text style={styles.subtitle}>We have just send your 6 digits code via your</Text>
         <Text style={{fontSize:15,color:'rgb(145,145,155)',paddingVertical:5}}>email<Text style={{color:'white',}}> example@gmail.com</Text></Text>
         </View>
         <View style={styles.pincodecontainer}>
+          <TextInput style={styles.pincode}/>
+          <TextInput style={styles.pincode}/>
           <TextInput style={styles.pincode}/>
           <TextInput style={styles.pincode}/>
           <TextInput style={styles.pincode}/>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
       borderWidth:1,
       borderColor: 'rgb(87,189,201)',
       borderRadius:10,
-      marginHorizontal:15
+      marginHorizontal:5
     },
     text:{
       justifyContent:'center',

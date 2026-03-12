@@ -8,9 +8,10 @@ interface TextInputProps{
     label: string;
     placeholder: string;
     isPassword?: boolean;
+    onChangeText?: (text: string) => void;
 }
 
-export default function Textinput_components({label,placeholder,isPassword}:TextInputProps) {
+export default function Textinput_components({label,placeholder,isPassword,onChangeText}:TextInputProps) {
     return(
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -20,7 +21,7 @@ export default function Textinput_components({label,placeholder,isPassword}:Text
                     placeholderTextColor='#666'
                     secureTextEntry={isPassword}
                     style={styles.inputField}
-                    
+                    onChangeText={onChangeText}
                 />
                 {isPassword &&(
                     <AntDesign name="eye-invisible" size={24} color="#666" style={styles.icon} />
@@ -32,7 +33,7 @@ export default function Textinput_components({label,placeholder,isPassword}:Text
 
 const styles = StyleSheet.create({
     container:{
-        marginBottom: 5,
+        
         marginHorizontal: 15,
     },
     label:{

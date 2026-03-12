@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import ViewBackgroundColor from '../components/View_component';
-import Button_component from '../components/Button_component';
+import ViewBackgroundColor from '../../components/View_component';
+import Button_component from '../../components/Button_component';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 type RootStackParamList = {
@@ -17,7 +17,7 @@ export default function Root() {
       <View style={styles.styleimage}>
         <Image 
           style={{ width: 150, height: 150 }} 
-          source={require('../../assets/Cinemax.webp')} 
+          source={require('../../../assets/Cinemax.webp')} 
         />
         <Text style={{ color: 'white', fontSize: 35, fontWeight: 'bold' }}>CINEMAX</Text>
         <View style={{ marginTop: 10 }}>
@@ -51,13 +51,13 @@ export default function Root() {
 
       <View style={styles.iconcontainer}>
         <View style={styles.socialCircle}>
-          <Image style={styles.iconImage} source={require('../../assets/google.png')} />
+          <Image style={styles.iconImage} source={require('../../../assets/google.png')} />
         </View>
         <View style={[styles.socialCircle, { backgroundColor: 'white',borderRadius:30 }]}>
-          <Image style={styles.iconImage} source={require('../../assets/apple.png')} />
+          <Image style={styles.iconImage} source={require('../../../assets/apple.png')} />
         </View>
         <View style={styles.socialCircle}>
-          <Image style={styles.iconImage} source={require('../../assets/facebook.png')} />
+          <Image style={styles.iconImage} source={require('../../../assets/facebook.png')} />
         </View>
       </View>
     </ViewBackgroundColor>
@@ -115,3 +115,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
 });
+
+
+
