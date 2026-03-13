@@ -19,7 +19,7 @@ export default function Textinput_components({label,placeholder,isPassword,onCha
                 <TextInput
                     placeholder={placeholder}
                     placeholderTextColor='#666'
-                    secureTextEntry={isPassword}
+                    secureTextEntry={!!isPassword}
                     style={styles.inputField}
                     onChangeText={onChangeText}
                 />

@@ -10,10 +10,15 @@ const Tab = createBottomTabNavigator();
 
 export default function MainStackBottomNavigation() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} options={{headerShown:false}} />
-      <Tab.Screen name="Search" component={Search} options={{headerShown:false}}/>
-      <Tab.Screen name="Watch_list" component={Details_about_Movie} options={{headerShown:false}}/>
+    <Tab.Navigator 
+      screenOptions={{
+        // Global setting to avoid repetition
+        headerShown: false, 
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Search" component={Search}/>
+      <Tab.Screen name="Watch_list" component={Details_about_Movie} />
     </Tab.Navigator>
   )
 }
