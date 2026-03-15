@@ -6,6 +6,7 @@ import SignUpScreen from '../screens/Auth/SignUpScreen';
 import VerificationScreen from '../screens/Auth/Verification';
 import ResetpasswordScreen from '../screens/Auth/Reset_Password';
 import LoginScreen from '../screens/Auth/LoginPage';
+import Edit_profile from '../screens/Profile/Edit_profile';
 import CreateNewPasswordScreen from '../screens/Auth/Create_New_Password';
 import MainStackBottomNavigation from './MainStackBottomNavigation';
 
@@ -22,6 +23,7 @@ export default function Navigation() {
         <Stack.Screen name="Main" component={MainStackBottomNavigation} />
         <Stack.Screen name="ResetPassword" component={ResetpasswordScreen} />
         <Stack.Screen name="CreateNewPassword" component={CreateNewPasswordScreen} />
+        <Stack.Screen name='Edit_profile' component={Edit_profile}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

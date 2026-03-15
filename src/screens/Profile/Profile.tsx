@@ -1,214 +1,254 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View,Text,StyleSheet, } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+
+
 import ViewBackgroundColor from "../../components/View_component";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Button_component from "../../components/Button_component";
+import Button_edit from "../../components/Button_edit_profile";
+
+
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { ScrollView } from "react-native";
-import IconComponent from "../../components/IconComponent";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
+interface UserType {
+  name: string;
+  email: string;
+}
 
-export default function Profile(){
-    return(
+export default function Profile() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation<NavigationProp<any>>();
+  const [user, setUser] = useState<UserType | null>(null);
+
+ 
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userData = await AsyncStorage.getItem("user");
+        if (userData) {
+          setUser(JSON.parse(userData));
+        }
+      } catch (error) {
+        console.log("Error loading user data:", error);
+      }
+    };
+    loadUserData();
+  }, []);
+
+  const handleLogoutConfirm = async () => {
+    setModalVisible(false);
+    await AsyncStorage.clear(); 
+    navigation.navigate('Login');
+  };
+
+  return (
+    <ViewBackgroundColor>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header Title */}
+        <View style={styles.container}>
+          <Text style={styles.headerText}>Profile</Text>
+        </View>
+
+        {/* User Info Box */}
+        <View style={styles.box}>
+          <View style={styles.userInfoContainer}>
+            <Text style={styles.userNameText}>
+              {user?.name || "Guest User"}
+            </Text>
+            <Text style={styles.userEmailText}>
+              {user?.email || "No email provided"}
+            </Text>
+          </View>
+          
+          <View style={styles.editBtnContainer}>
+            <Button_edit
+              children_button="Edit"
+              onPress={() => navigation.navigate("Edit_profile")}
+            />
+          </View>
+        </View>
+
         
-        <ViewBackgroundColor>
-            <ScrollView>
-            <View style={styles.container}>
-                <Text style={styles.text}>Profile</Text>
+        <View style={styles.premium}>
+          <View style={styles.premiumicon}>
+            <MaterialIcons name="workspace-premium" size={30} color="black" />
+            <View style={{ marginLeft: 10 }}>
+              <Text style={styles.premiumTitle}>Premium Member</Text>
+              <Text style={styles.premiumSubtitle}>New movies are coming for you!</Text>
             </View>
-            <View style={styles.box}>
-                <View style={styles.editpf}>
-                <AntDesign name="edit" size={24} color="rgb(93,202,215)" />
-                </View>
+          </View>
+        </View>
+
+       
+        <View style={styles.logout_btn}>
+          <Button_component
+            children_button="Log Out"
+            onPress={() => setModalVisible(true)}
+          />
+        </View>
+
+       
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.iconContainer}>
+                <FontAwesome name="question" size={45} color="white" />
+              </View>
+              <Text style={styles.modalTitle}>Are you sure?</Text>
+              <Text style={styles.modalSubtitle}>Do you really want to log out from your account?</Text>
+              
+              <View style={styles.modalButtonContainer}>
+                <TouchableOpacity style={styles.outlineButton} onPress={handleLogoutConfirm}>
+                  <Text style={styles.outlineButtonText}>Log Out</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.solidButton} onPress={() => setModalVisible(false)}>
+                  <Text style={styles.solidButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.premium}>
-                <View style={styles.premiumicon}>
-                    <MaterialIcons name="workspace-premium" size={30} color="black" />
-                    <Text style={styles.fontsize}>Premium Member{'\n'}<Text style={{color:'rgb(252,233,210)'}}>New movies are coming for you,{'\n'}<Text>Dowloard Now!</Text></Text></Text>
-                </View>
-            </View>
-            
-            <View style={styles.containeraccount}>
-                <View style={styles.mainaccount}>
-                <Text style={styles.account}>Account</Text>
-                </View>
-                <View style={styles.arrowContainer}>
-                     <AntDesign name="arrow-right" size={24} color="rgb(93,202,215)" />
-                </View>
-                <View style={styles.iconuser}>
-                    <View style={styles.borderRadiususer}>
-                    <AntDesign name="user" size={20} color="rgb(93,202,215)" />
-                    </View>
-                    <View style={styles.Mainmember}>
-                    <Text style={{fontSize:20,color:'white'}}>Member</Text>
-                     </View>
-                     <View style={[styles.arrowContainer,{top:10}]}>
-                     <AntDesign name="arrow-right" size={24} color="rgb(93,202,215)" />
-                </View>
-                </View>
-                <View style={styles.ruler}></View>
-                <View style={{flexDirection:'row'}}>
-                <IconComponent iconName="lock" color="rgb(146,146,156)"/>
-                <View style={{left:10}}>
-                <Text style={{fontSize:20,color:'white',top:20}}>Change Password</Text>
-                </View>
-                </View>
-            </View>
-            
-            <View style={styles.containeraccount}>
-                <View style={{marginLeft:20,marginTop:20}}>
-                <Text style={styles.text}>General</Text>
-                </View>
-                <View style={styles.arrowContainer}>
-                     <AntDesign name="arrow-right" size={24} color="rgb(93,202,215)" />
-                </View>
-                <View style={{flexDirection:'row'}}>
-                 <View style={[styles.borderRadiususer,{marginLeft:15,marginTop:15,}]}>
-                    <Ionicons name="notifications" size={24} color="black" />
-                 </View>
-                 
-                 <View style={styles.Mainmember}>
-                    <Text style={{fontSize:20,color:'white',marginTop:10,left:5}}>Notification</Text>
-                     </View>
-                 </View>
-                 <View>
-                    <View style={{flexDirection:'row'}}>
-                <View style={styles.mainmater}>
-                    <View style={styles.mainmater2}>
-                <MaterialIcons name="language" size={24} color="black" />
-                </View>
-                </View>
-                <View style={{left:10}}>
-                <Text style={{fontSize:20,color:'white',top:27}}>Language</Text>
-                </View>
-                </View>
-                   
-                 </View>
-            </View>
-            </ScrollView>
-        </ViewBackgroundColor>
-    )
+          </View>
+        </Modal>
+      </ScrollView>
+    </ViewBackgroundColor>
+  );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:60
-    },
-    text:{
-        fontSize:20,
-        color:'white',
-        fontWeight:'bold'
-    },
-    box:{
-        borderWidth:1,
-        height:70,
-        marginTop:20,
-        borderRadius:15,
-        marginHorizontal:20,
-        borderColor:'rgb(37,40,53)'
-    },
-    editpf:{
-        alignItems:'flex-end',
-        justifyContent:'center',
-        margin:20,
-        textAlign:'center'
-    },
-    premium:{
-        borderWidth:1,
-        height:90,
-        marginTop:20,
-        marginHorizontal:20,
-        borderRadius:15,
-        backgroundColor:'rgb(240,140,52)'
-    },
-    premiumicon:{
-        marginTop:20,
-        marginLeft:30,
-        flexDirection:'row'
-    },
-    fontsize:{
-        fontSize:16,
-        color:'white',
-        marginLeft:10
-    },
-    containeraccount:{
-        borderWidth:1,
-        height:190,
-        marginTop:20,
-        borderRadius:20,
-        marginHorizontal:20,
-        borderColor:'rgb(37,40,53)'
-    },
-    mainaccount:{
-        marginLeft:20,
-        marginTop:15
-    },
-    account:{
-        color:'white',
-        fontSize:22,
-        fontWeight:'bold'
-    },
-    iconuser:{
-        marginLeft:15,
-        marginTop:15,
-        flexDirection:'row'
-    },
-    borderRadiususer:{
-        borderWidth:1,
-        width:40,
-        height:40,
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'rgb(37,40,53)',
-        borderColor:'rgb(37,40,53)',
-    },
-    Mainmember:{
-        marginLeft:10,
-        marginTop:10
-    },
-    arrowContainer:{
-       position:'absolute',
-        right:30,
-        marginTop:70
-    },
-    ruler:{
-        marginTop:20,
-        borderBottomWidth:1,
-        marginHorizontal:30,
-        borderBottomColor:'rgb(37,40,53)',
-    },
-    
-    MaterialIcons:{
-        borderWidth:1,
-        width:40,
-        height:40,
-        borderRadius:20,
-        marginLeft:15,
-        top:15,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'rgb(37,40,53)',
-        borderColor:'rgb(37,40,53)',
-        textAlign:'center'
-    },
-    mainmater:{
-        marginLeft:15,
-        top:20
-    },
-    mainmater2:{
-        borderWidth:1,
-        height:40,
-        width:40,
-        borderRadius:20,
-        justifyContent:'center',
-        alignItems:'center',
-         backgroundColor:'rgb(37,40,53)',
-        borderColor:'rgb(37,40,53)',
-    }
-    
-})
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 60,
+    marginBottom: 20
+  },
+  headerText: {
+    fontSize: 24,
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  box: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderRadius: 15,
+    marginHorizontal: 20,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(37, 40, 53, 0.5)',
+    alignItems: 'center',
+  },
+  userInfoContainer: {
+    flex: 1,
+  },
+  userNameText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  userEmailText: {
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 14,
+    marginTop: 4,
+  },
+  editBtnContainer: {
+    justifyContent: 'center',
+  },
+  premium: {
+    height: 90,
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderRadius: 15,
+    backgroundColor: 'rgb(240,140,52)',
+    justifyContent: 'center',
+    paddingHorizontal: 20
+  },
+  premiumicon: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  premiumTitle: {
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold'
+  },
+  premiumSubtitle: {
+    fontSize: 12,
+    color: 'rgba(0,0,0,0.7)'
+  },
+  logout_btn: {
+    margin: 25,
+    marginTop: 40
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '85%',
+    backgroundColor: 'rgb(31, 34, 42)',
+    borderRadius: 30,
+    padding: 30,
+    alignItems: 'center',
+  },
+  iconContainer: {
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 10,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    textAlign: 'center',
+    marginBottom: 30,
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  outlineButton: {
+    flex: 1,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'rgb(93,202,215)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  outlineButtonText: {
+    color: 'rgb(93,202,215)',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  solidButton: {
+    flex: 1,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgb(93,202,215)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  solidButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});

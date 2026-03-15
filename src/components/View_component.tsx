@@ -2,7 +2,7 @@ import React from "react";
 import { ReactNode } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
-// Tell TS that children can be anything that is UI.
+
 interface ViewProps{
     children: ReactNode,
     
